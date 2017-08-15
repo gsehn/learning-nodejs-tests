@@ -1,58 +1,64 @@
 const utils = require('./utils');
 const expect = require('expect');
 
-it('should add two numbers', () => {
-	const result = utils.add(33, 11);
+describe('utils', () => {
 
-	expect(result)
-		.toBe(44)
-		.toBeA('number');
-});
+	describe('math', () => {
+		it('should add two numbers', () => {
+			const result = utils.add(33, 11);
 
-it('should asyncAdd two numbers', (done) => {
-	utils.asyncAdd(4, 3, (sum) => {
-		expect(sum).toBeA('number').toBe(7);
-		done();
+			expect(result)
+			.toBe(44)
+			.toBeA('number');
+		});
+
+		it('should asyncAdd two numbers', (done) => {
+			utils.asyncAdd(4, 3, (sum) => {
+				expect(sum).toBeA('number').toBe(7);
+				done();
+			});
+		});
+
+		it('should square number', () => {
+			const result = utils.square(2);
+
+			expect(result)
+			.toBe(4)
+			.toBeA('number');
+		});
+
+		it('should asyncSquare number', (done) => {
+			utils.asyncSquare(4, (result) => {
+				expect(result).toBeA('number').toBe(16);
+				done();
+			});
+		});
 	});
-});
 
-it('should square number', () => {
-	const result = utils.square(2);
+	it('should expect some values', () => {
+		expect({name: 'Guenther'}).toBeA('object').toEqual({name: 'Guenther'});
 
-	expect(result)
-		.toBe(4)
-		.toBeA('number');
-});
+		expect([2, 3, 4]).toInclude(4).toExclude(1);
 
-it('should asyncSquare number', (done) => {
-	utils.asyncSquare(4, (result) => {
-		expect(result).toBeA('number').toBe(16);
-		done();
+		expect({
+			name: 'Guenther',
+			age: 36,
+			location: "Brazil"
+		}).toInclude({age: 36});
 	});
-});
 
-it('should expect some values', () => {
-	expect({name: 'Guenther'}).toBeA('object').toEqual({name: 'Guenther'});
+	describe('string', () => {
+		it('should split a full name with extra spaces correctly and set "firstName" and "lastName"', () => {
+			const user = {
+				firstName: '',
+				lastName: '',
+				location: 'Porto Alegre'
+			};
 
-	expect([2, 3, 4]).toInclude(4).toExclude(1);
-
-	expect({
-		name: 'Guenther',
-		age: 36,
-		location: "Brazil"
-	}).toInclude({age: 36});
-});
-
-it('should split a full name with extra spaces correctly and set "firstName" and "lastName"', () => {
-	const user = {
-		firstName: '',
-		lastName: '',
-		location: 'Porto Alegre'
-	};
-
-
-	expect(utils.setName(user, " Guenther Sehn "))
-		.toBeA('object')
-		.toInclude({firstName: 'Guenther'})
-		.toInclude({lastName: 'Sehn'});
+			expect(utils.setName(user, " Guenther Sehn "))
+			.toBeA('object')
+			.toInclude({firstName: 'Guenther'})
+			.toInclude({lastName: 'Sehn'});
+		});		
+	});
 });
